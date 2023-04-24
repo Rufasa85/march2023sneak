@@ -39,6 +39,9 @@ app.get("/",(req,res)=>{
 app.get('/sneakers', (req,res)=>{
     res.json(sneakers)
 })
+app.post('/sneakers', (req,res)=>{
+   res.send("posted sneaker")
+})
 
 app.get("/sneakers/owner/:name",(req,res)=>{
     const ownerName = req.params.name;
