@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path")
 const app = express();
 const sneakers = [
     {
@@ -27,12 +28,24 @@ const sneakers = [
     }
 ]
 
+app.use(express.static("public"))
+
 app.get("/",(req,res)=>{
-    res.send("Welcome to the home page")
+    // res.send("Welcome to the home page")
+   res.sendFile(path.join(__dirname,"./views/index.html"))
 })
+
 
 app.get('/sneakers', (req,res)=>{
     res.json(sneakers)
+})
+
+app.get("/sneakers/owner/:name",(req,res)=>{
+    const ownerName = req.params.name;
+    const filteredShoes = sneakers.filter(shoe=>{
+        return shoe.owner === ownerName;
+    })
+    return res.json(filteredShoes);
 })
 
 app.get("/sneakers/:sneakId",(req,res)=>{
