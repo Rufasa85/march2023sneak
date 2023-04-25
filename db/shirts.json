@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "owner": "Joe",
+        "style": "Tee",
+        "color": "black",
+        "print": "A cat underwater grabbing a mouse with the text PAWS across the top. Its a movie spoof"
+    },
+    {
+        "id": "ccfae0a4-93b2-45fd-9e64-b9f14f813423",
+        "owner": "Joe",
+        "style": "Tee",
+        "color": "black",
+        "print": "A llama doing math"
+    },
+    {
+        "id": "d4d0efc6-d3e8-4955-961c-3139e80f31e3",
+        "owner": "Joe",
+        "style": "Tee",
+        "color": "black",
+        "print": "A llama doing math"
+    },
+    {
+        "id": "40dd1e4a-140c-45e7-8a06-645f904740a4",
+        "owner": "Joe",
+        "style": "Tee",
+        "color": "black",
+        "print": "A llama doing math"
+    }
+]
