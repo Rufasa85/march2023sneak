@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "owner": "Joe",
+        "name": "Converse All Stars",
+        "color": "red"
+    },
+    {
+        "id": 2,
+        "owner": "Joe",
+        "name": "Air Jordans",
+        "color": "white"
+    },
+    {
+        "id": 3,
+        "owner": "Tom",
+        "name": "Birkenstocks",
+        "color": "brown"
+    },
+    {
+        "id": 4,
+        "owner": "Shiva",
+        "name": "CatPaw",
+        "color": "orange"
+    }
+]

@@ -1,33 +1,9 @@
 const express = require("express");
  const uuid = require('uuid');
-const path = require("path")
+const path = require("path");
+const fs = require("fs");
 const app = express();
-const sneakers = [
-    {
-        id:1,
-        owner:"Joe",
-        name:"Converse All Stars",
-        color:"red"
-    },
-    {   
-        id:2,
-        owner:"Joe",
-        name:"Air Jordans",
-        color:"white"
-    },
-    {
-        id:3,
-        owner:"Tom",
-        name:"Birkenstocks",
-        color:"brown"
-    },
-    {
-        id:4,
-        owner:"Shiva",
-        name:"CatPaw",
-        color:"orange"
-    }
-]
+
 
 app.use(express.static("public"))
 
@@ -40,33 +16,73 @@ app.get("/",(req,res)=>{
 })
 
 app.get('/api/sneakers', (req,res)=>{
-    res.json(sneakers)
+    fs.readFile("./db/sneakers.json","utf-8",(err,data)=>{
+        if(err){
+            return res.status(500).json({msg:"error reading db"})
+        } else {
+            const dataArr = JSON.parse(data);
+            return res.json(dataArr)
+        }
+    })
 })
 
 app.post('/api/sneakers', (req,res)=>{
-    console.log(req.body)
-    req.body.id=uuid.v4()
-    sneakers.push(req.body)
-   res.send("posted sneaker")
+    fs.readFile("./db/sneakers.json","utf-8",(err,data)=>{
+        if(err){
+            return res.status(500).json({msg:"error reading db"})
+        } else {
+            const dataArr = JSON.parse(data);
+            const newShoe = {
+                id:uuid.v4(),
+                owner:req.body.owner,
+                name:req.body.name,
+                color:req.body.color
+            }
+            console.log(newShoe)
+            dataArr.push(newShoe)
+           fs.writeFile("./db/sneakers.json",JSON.stringify(dataArr,null,4),(err)=>{
+            if(err){
+                return res.status(500).json({msg:"error writing db"})
+            } else {
+                return res.json(newShoe)
+            }
+           })
+        }
+    })
 })
 
 app.get("/api/sneakers/owner/:name",(req,res)=>{
-    const ownerName = req.params.name;
-    const filteredShoes = sneakers.filter(shoe=>{
-        return shoe.owner === ownerName;
+    fs.readFile("./db/sneakers.json","utf-8",(err,data)=>{
+        if(err){
+            return res.status(500).json({msg:"error reading db"})
+        } else {
+            const sneakers = JSON.parse(data);
+
+            const ownerName = req.params.name;
+            const filteredShoes = sneakers.filter(shoe=>{
+                return shoe.owner === ownerName;
+            })
+            return res.json(filteredShoes);
+        }
     })
-    return res.json(filteredShoes);
 })
 
 app.get("/api/sneakers/:sneakId",(req,res)=>{
-    const sneakId = req.params.sneakId;
-    for (let i = 0; i < sneakers.length; i++) {
-        if(sneakers[i].id==sneakId){
-            return res.json(sneakers[i])
-        }   
-    }
-    return res.status(404).json({
-        msg:"no such sneaker!"
+    fs.readFile("./db/sneakers.json","utf-8",(err,data)=>{
+        if(err){
+            return res.status(500).json({msg:"error reading db"})
+        } else {
+            const sneakers = JSON.parse(data);
+            const sneakId = req.params.sneakId;
+            for (let i = 0; i < sneakers.length; i++) {
+                if(sneakers[i].id==sneakId){
+                    return res.json(sneakers[i])
+                }   
+            }
+            return res.status(404).json({
+                msg:"no such sneaker!"
+            })
+        }
     })
 })
 
