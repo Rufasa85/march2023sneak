@@ -1,4 +1,4 @@
-fetch("/sneakers").then(res=>{
+fetch("/api/sneakers").then(res=>{
     return res.json();
 }).then(data=>{
     console.log(data)

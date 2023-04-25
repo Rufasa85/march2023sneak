@@ -30,20 +30,25 @@ const sneakers = [
 
 app.use(express.static("public"))
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.get("/",(req,res)=>{
     // res.send("Welcome to the home page")
    res.sendFile(path.join(__dirname,"./views/index.html"))
 })
 
-
-app.get('/sneakers', (req,res)=>{
+app.get('/api/sneakers', (req,res)=>{
     res.json(sneakers)
 })
-app.post('/sneakers', (req,res)=>{
+
+app.post('/api/sneakers', (req,res)=>{
+    console.log(req.body)
+    sneakers.push(req.body)
    res.send("posted sneaker")
 })
 
-app.get("/sneakers/owner/:name",(req,res)=>{
+app.get("/api/sneakers/owner/:name",(req,res)=>{
     const ownerName = req.params.name;
     const filteredShoes = sneakers.filter(shoe=>{
         return shoe.owner === ownerName;
@@ -51,7 +56,7 @@ app.get("/sneakers/owner/:name",(req,res)=>{
     return res.json(filteredShoes);
 })
 
-app.get("/sneakers/:sneakId",(req,res)=>{
+app.get("/api/sneakers/:sneakId",(req,res)=>{
     const sneakId = req.params.sneakId;
     for (let i = 0; i < sneakers.length; i++) {
         if(sneakers[i].id==sneakId){
@@ -62,18 +67,6 @@ app.get("/sneakers/:sneakId",(req,res)=>{
         msg:"no such sneaker!"
     })
 })
-
-// app.get("/sneakers/1",(req,res)=>{
-//     res.json(sneakers[0])
-// })
-
-// app.get("/sneakers/2",(req,res)=>{
-//     res.json(sneakers[1])
-// })
-
-// app.get("/sneakers/3",(req,res)=>{
-//     res.json(sneakers[2])
-// })
 
 app.listen(3000,()=>{
     console.log("listening on port 3000!")
