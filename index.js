@@ -1,4 +1,5 @@
 const express = require("express");
+ const uuid = require('uuid');
 const path = require("path")
 const app = express();
 const sneakers = [
@@ -44,6 +45,7 @@ app.get('/api/sneakers', (req,res)=>{
 
 app.post('/api/sneakers', (req,res)=>{
     console.log(req.body)
+    req.body.id=uuid.v4()
     sneakers.push(req.body)
    res.send("posted sneaker")
 })
